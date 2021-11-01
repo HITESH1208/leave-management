@@ -7,7 +7,7 @@ namespace leave_management.ViewModels
 {
     public class EmployeeVM
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string UserName { get; set; }
 
@@ -19,4 +19,5 @@ namespace leave_management.ViewModels
         public DateTime DateOfBirth { get; set; }
         public DateTime DateJoined { get; set; }
     }
+
 }

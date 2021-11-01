@@ -1,0 +1,48 @@
+﻿@model IEnumerable<leave_management.ViewModels.DetailLeaveTypeVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Create New</a>
+</p>
+<table class="table" id="LeaveTypes">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DefaultDays)
+            </th>
+            <th>@Html.DisplayName("Actions")</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DefaultDays)
+            </td>
+            <td>
+              <a class="btn btn-warning" asp-controller="LeaveType" asp-action="Edit" asp-route-id=@item.Id><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;&nbsp;
+              <a class="btn btn-primary" asp-controller="LeaveType" asp-action="Details" asp-route-id=@item.Id><i class="fa fa-info" aria-hidden="true"></i></a>&nbsp;&nbsp;
+              <a class="btn btn-danger" asp-controller="LeaveType" asp-action="Delete" asp-route-id=@item.Id>  <i class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts
+{
+<script>
+    $("#LeaveTypes").DataTable();
+</script>
+}

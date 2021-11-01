@@ -11,6 +11,8 @@ namespace leave_management.Data.Models
     {
         [Key]
         public int Id { get; set; }
+
+        //Remaining Leaves
         public int NumberOfDays { get; set; }
         public DateTime DateCreated { get; set; }
 
@@ -23,5 +25,7 @@ namespace leave_management.Data.Models
         public LeaveType LeaveType { get; set; }
 
         public int LeaveTypeId { get; set; }
+
+        public int Year { get; set; }
     }
 }

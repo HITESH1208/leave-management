@@ -15,5 +15,8 @@ namespace leave_management.Data.Models
         public string Name { get; set; }
 
         public DateTime DateCreated { get; set; }
+
+        //Default days per leave Type
+        public int DefaultDays { get; set; }
     }
 }

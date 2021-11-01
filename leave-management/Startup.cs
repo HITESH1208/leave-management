@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using leave_management.Contract;
 using leave_management.Repository;
 using leave_management.Mappings;
+using leave_management.Data.Models;
 
 namespace leave_management
 {
@@ -33,17 +34,20 @@ namespace leave_management
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
+            services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
+            services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
             services.AddAutoMapper(typeof(AutoMap));
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,UserManager<Employee> userManager,RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -64,6 +68,7 @@ namespace leave_management
             app.UseAuthentication();
             app.UseAuthorization();
 
+            SeedData.Seed(userManager, roleManager);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -71,6 +76,7 @@ namespace leave_management
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }

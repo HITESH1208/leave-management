@@ -1,11 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using leave_management.Data.Models;
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Leave Management</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://use.fontawesome.com/2da3078206.js"></script>
 </head>
 <body>
     <header>
@@ -25,18 +31,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                   
-                         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manage
-        </a>
-        <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item text-white" href="#">Apply Leaves</a>
-          <a class="dropdown-item text-white" href="#">Approve/Deny</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-white" href="#">Leaves History</a>
-        </div>
-      </li>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage
+                            </a>
+                            <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-white" asp-controller="LeaveType" asp-action="Index">Leave Type</a>
+                                <a class="dropdown-item text-white" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocation</a>
+                                <a class="dropdown-item text-white" href="#">Approve/Deny</a>
+                                <a class="dropdown-item text-white" asp-controller="LeaveAllocation" asp-action="ListEmployees">Employee List</a>
+                             
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-white" href="#">Leaves History</a>
+                            </div>
+                        </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
@@ -55,7 +71,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+   
     @RenderSection("Scripts", required: false)
 </body>
 </html>

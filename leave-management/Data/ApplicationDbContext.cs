@@ -4,6 +4,7 @@ using System.Text;
 using leave_management.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using leave_management.ViewModels;
 
 namespace leave_management.Data
 {
@@ -13,12 +14,13 @@ namespace leave_management.Data
             : base(options)
         {
         }
-
+        
         public DbSet<Employee> Employees { get; set; }
         public DbSet<LeaveType> LeaveTypes { get; set; }
 
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
 
         public DbSet<LeaveHistory> LeaveHistories { get; set; }
+
     }
 }

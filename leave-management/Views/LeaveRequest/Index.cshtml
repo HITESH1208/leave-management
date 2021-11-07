@@ -1,0 +1,75 @@
+﻿@model leave_management.ViewModels.LeaveDetailsVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>EmployeeVM</h4>
+    <hr />
+    <dl class="row">
+        <input type="hidden" asp-for="@Model.EmployeeDetails.Id" />
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.TaxId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.TaxId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.DateOfBirth)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.DateOfBirth)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeDetails.DateJoined)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeDetails.DateJoined)
+        </dd>
+    </dl>
+
+    <h2>Leave Allocations</h2>
+
+    <div class="card" style="width: 38rem;">
+        <ul class="list-group list-group-flush">
+            @foreach (var item in Model.LeaveAllocations)
+            {
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-primary">
+                        @item.LeaveType.Name <span class="badge bg-secondary">@item.NumberOfDays</span>
+                    </button>
+                    &nbsp;&nbsp;<a class="btn btn-warning" asp-controller="LeaveRequest" asp-action="ApplyLeave" asp-route-id="@item.LeaveType.Id">Apply For Leave</a>
+               </li>
+            }
+        </ul>
+    </div>
+
+</div>
+

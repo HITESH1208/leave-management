@@ -9,6 +9,7 @@ using leave_management.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace leave_management.Controllers
 {
@@ -26,17 +27,17 @@ namespace leave_management.Controllers
 
 
         // GET: LeaveTypeController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var leaveTypes = _repo.FindAll().ToList();
-            var model = _mapper.Map<List<LeaveType>,List<DetailLeaveTypeVM>>(leaveTypes);
+            var leaveTypes = await _repo.FindAll();
+            var model = _mapper.Map<List<LeaveType>,List<DetailLeaveTypeVM>>(leaveTypes.ToList());
             return View(model);
         }
 
         // GET: LeaveTypeController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var details = _repo.FindById(id);
+            var details = await _repo.FindById(id);
             var VMData = _mapper.Map<DetailLeaveTypeVM>(details);
             return View(VMData);
         }
@@ -50,7 +51,7 @@ namespace leave_management.Controllers
         // POST: LeaveTypeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Name,DefaultDays")]DetailLeaveTypeVM model)
+        public async Task<ActionResult> Create([Bind("Name,DefaultDays")]DetailLeaveTypeVM model)
         {
             try
             {
@@ -62,7 +63,7 @@ namespace leave_management.Controllers
                 {
                     var leaveType = _mapper.Map<LeaveType>(model);
                     leaveType.DateCreated = DateTime.Now;
-                    var success = _repo.Create(leaveType);
+                    var success = await _repo.Create(leaveType);
                     if(!success)
                     {
                         ModelState.AddModelError("", "Something Went wrong");
@@ -78,9 +79,9 @@ namespace leave_management.Controllers
         }
 
         // GET: LeaveTypeController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var leaveData = _repo.FindById(id);
+            var leaveData = await _repo.FindById(id);
             var modealData = _mapper.Map<DetailLeaveTypeVM>(leaveData);
             return View(modealData);
         }
@@ -88,7 +89,7 @@ namespace leave_management.Controllers
         // POST: LeaveTypeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, DetailLeaveTypeVM model)
+        public async Task<ActionResult> Edit(int id, DetailLeaveTypeVM model)
         {
             try
             {
@@ -100,7 +101,7 @@ namespace leave_management.Controllers
                 {
                     var leaveData = _mapper.Map<LeaveType>(model);
                     leaveData.DateCreated = DateTime.Now;
-                    var success = _repo.Update(leaveData);
+                    var success = await _repo.Update(leaveData);
                     if(!success)
                     {
                         ModelState.AddModelError("", "Something went wrong");
@@ -117,9 +118,9 @@ namespace leave_management.Controllers
         }
 
         // GET: LeaveTypeController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var details = _repo.FindById(id);
+            var details = await _repo.FindById(id);
             var VMData = _mapper.Map<DetailLeaveTypeVM>(details);
             return View(VMData);
 
@@ -128,12 +129,12 @@ namespace leave_management.Controllers
         // POST: LeaveTypeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, DetailLeaveTypeVM model)
+        public async Task<ActionResult> Delete(int id, DetailLeaveTypeVM model)
         {
             try
             {
                 var modelData = _mapper.Map<LeaveType>(model);
-                var success = _repo.Delete(modelData);
+                var success = await _repo.Delete(modelData);
                 if(!success)
                 {
                     ModelState.AddModelError("", "Something Went Wrong ");

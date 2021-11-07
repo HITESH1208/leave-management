@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace leave_management.Contract
 {
-    public interface ILeaveHistoryRepository : IRepositoryBase<LeaveHistory>
+    public interface ILeaveHistoryRepository : IRepositoryBase<LeaveRequest>
     {
+        Task<bool> UpdatePendingLeaves(LeaveRequest entity);
     }
 }

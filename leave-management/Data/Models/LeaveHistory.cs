@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace leave_management.Data.Models
 {
-    public class LeaveHistory
+    public class LeaveRequest
     {
         [Key]
-        public int MyProperty { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("RequestingEmployeeId")]
         public Employee RequestingEmployee { get; set; }

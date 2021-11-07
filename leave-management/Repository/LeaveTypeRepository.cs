@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace leave_management.Repository
 {
@@ -16,37 +17,40 @@ namespace leave_management.Repository
             _context = context;
         }
 
-        public bool Create(LeaveType entity)
+        public async Task<bool> Create(LeaveType entity)
         {
             _context.LeaveTypes.Add(entity);
-            return Save();
+            return await Save();
         }
 
-        public bool Delete(LeaveType entity)
+        public async Task<bool> Delete(LeaveType entity)
         {
             _context.LeaveTypes.Remove(entity);
-            return Save();
+            return await Save();
         }
 
-        public ICollection<LeaveType> FindAll()
+        public async Task<ICollection<LeaveType>> FindAll()
         {
-            return _context.LeaveTypes.ToList();
+            var result = await _context.LeaveTypes.ToListAsync();
+            return result;
         }
 
-        public LeaveType FindById(int id)
+        public async Task<LeaveType> FindById(int id)
         {
-            return _context.LeaveTypes.FirstOrDefault(m => m.Id == id);
+            var result = await _context.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
+            return result;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            var result = await _context.SaveChangesAsync() > 0;
+            return result;
         }
 
-        public bool Update(LeaveType entity)
+        public async Task<bool> Update(LeaveType entity)
         {
             _context.LeaveTypes.Update(entity);
-            return Save();
+            return await Save();
         }
     }
 }
